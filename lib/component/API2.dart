@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 class API2 extends StatefulWidget {
   const API2({Key? key}) : super(key: key);
 
@@ -12,7 +11,7 @@ class API2 extends StatefulWidget {
 class _API2State extends State<API2> {
   List<dynamic> data = [];
   List<Photo> photo = [];
-
+  List<String> data1= [];
 
   void getData() async {
     await http
@@ -21,6 +20,7 @@ class _API2State extends State<API2> {
       data = jsonDecode(value.body);
       for (int i = 0; i < data.length; i++) {
         photo.add(Photo.fromJson(data[i]));
+        data1.add(photo[i].url);
       }
       setState(() {});
     });
@@ -35,7 +35,7 @@ class _API2State extends State<API2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body:photo.length==photo.length? const Center(child: CircularProgressIndicator(),): GridView.builder(
+        body:photo.isEmpty ? const Center(child: CircularProgressIndicator()) :GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4, crossAxisSpacing: 20,mainAxisSpacing: 20),
             itemCount: photo.length,
